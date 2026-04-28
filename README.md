@@ -18,5 +18,8 @@ React/TypeScript frontend for DevRewind — turns GitHub activity into a shareab
 - Set VITE_API_URL in .env
 - npm run dev
 
+## Live
+https://devrewind.netlify.app
+
 ## Related
 - [devrewind-api](https://github.com/Kenny-Harper/devrewind-api)
