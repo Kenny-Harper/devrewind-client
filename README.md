@@ -23,3 +23,7 @@ https://devrewind.netlify.app
 
 ## Related
 - [devrewind-api](https://github.com/Kenny-Harper/devrewind-api)
+
+## How Projects Are Displayed
+DevRewind displays your **pinned repositories** on GitHub (up to 6) as project cards.
+Pin your best work at github.com/your-username to control what appears on your DevRewind card.
