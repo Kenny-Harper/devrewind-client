@@ -25,6 +25,29 @@
 
 .logo span { color: #3EE8A0; }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-logout {
+  background: transparent;
+  color: #5A6878;
+  border: 1px solid #1E2730;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.btn-logout:hover {
+  color: #E8EDF5;
+  border-color: #5A6878;
+}
+
 .share-dropdown-wrap {
   position: relative;
 }
