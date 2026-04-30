@@ -19,6 +19,7 @@ interface Stats {
     stargazerCount: number
     primaryLanguage: { name: string } | null
     readmeImage: string | null
+    readmeLiveUrl: string | null
   }[]
   totalRepos: number
 }
@@ -83,6 +84,9 @@ function Wrapped() {
 
   const getProjectImage = (repo: Stats['pinnedRepos'][0]) => {
     if (repo.readmeImage) return repo.readmeImage
+    if (repo.readmeLiveUrl) {
+      return `https://api.microlink.io/?url=${encodeURIComponent(repo.readmeLiveUrl)}&screenshot=true&meta=false&embed=screenshot.url`
+    }
     if (repo.homepageUrl) {
       return `https://api.microlink.io/?url=${encodeURIComponent(repo.homepageUrl)}&screenshot=true&meta=false&embed=screenshot.url`
     }
@@ -216,8 +220,10 @@ function Wrapped() {
                       <p className="project-desc">{repo.description}</p>
                       <div className="project-links">
                         <a href={repo.url} target="_blank" rel="noreferrer">GitHub →</a>
-                        {repo.homepageUrl && (
-                          <a href={repo.homepageUrl} target="_blank" rel="noreferrer">Live →</a>
+                        {(repo.readmeLiveUrl || repo.homepageUrl) && (
+                          <a href={repo.readmeLiveUrl || repo.homepageUrl} target="_blank" rel="noreferrer">
+                            Live →
+                          </a>
                         )}
                       </div>
                     </div>
