@@ -30,12 +30,14 @@ function Wrapped() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [shareOpen, setShareOpen] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState('')
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/stats/${username}`)
         setStats(res.data.stats)
+        setAvatarUrl(res.data.avatar_url)
       } catch {
         setError('No stats found for this user')
       } finally {
@@ -97,19 +99,26 @@ function Wrapped() {
     return `https://opengraph.githubassets.com/1/${username}/${repo.name}`
   }
 
+  const getLiveUrl = (repo: Stats['pinnedRepos'][0]): string => {
+    return repo.readmeLiveUrl || repo.homepageUrl || repo.url
+  }
+
+  const getGridClass = (count: number): string => {
+    if (count === 1) return 'projects-grid projects-grid-1'
+    if (count === 2) return 'projects-grid projects-grid-2'
+    if (count === 4) return 'projects-grid projects-grid-4'
+    if (count === 5) return 'projects-grid projects-grid-3 projects-grid-5'
+    return 'projects-grid projects-grid-3'
+  }
+
   return (
     <div className="wrapped">
       <nav className="nav">
         <div className="logo">Dev<span>Rewind</span></div>
         <div className="nav-right">
-          <button className="btn-logout" onClick={handleLogout}>
-            Log out
-          </button>
+          <button className="btn-logout" onClick={handleLogout}>Log out</button>
           <div className="share-dropdown-wrap">
-            <button
-              className="btn-share-main"
-              onClick={() => setShareOpen(!shareOpen)}
-            >
+            <button className="btn-share-main" onClick={() => setShareOpen(!shareOpen)}>
               Share ↗
             </button>
             {shareOpen && (
@@ -145,7 +154,12 @@ function Wrapped() {
           <div className="card-header">
             <div className="card-header-left">
               <div className="year-badge">Your Developer Story</div>
-              <h1 className="card-username">@{username}</h1>
+              <div className="card-username-row">
+                {avatarUrl && (
+                  <img src={avatarUrl} alt={username} className="card-avatar" />
+                )}
+                <h1 className="card-username">@{username}</h1>
+              </div>
               <p className="card-tagline">Your CV doesn't tell the full story</p>
             </div>
             <div className="card-header-right">
@@ -202,10 +216,10 @@ function Wrapped() {
           {stats.pinnedRepos.length > 0 && (
             <div className="card-projects">
               <div className="section-title">Shipped projects</div>
-              <div className="projects-grid">
+              <div className={getGridClass(stats.pinnedRepos.length)}>
                 {stats.pinnedRepos.map((repo, i) => (
                   <div key={i} className="project-card">
-                    <div className="project-image skeleton">
+                    <a href={getLiveUrl(repo)} target="_blank" rel="noreferrer" className="project-image skeleton">
                       <img
                         src={getProjectImage(repo)}
                         alt={repo.name}
@@ -218,7 +232,7 @@ function Wrapped() {
                           img.parentElement?.classList.remove('skeleton')
                         }}
                       />
-                    </div>
+                    </a>
                     <div className="project-content">
                       <div className="project-top">
                         <span className="project-name">{repo.name}</span>
@@ -230,9 +244,7 @@ function Wrapped() {
                       <div className="project-links">
                         <a href={repo.url} target="_blank" rel="noreferrer">GitHub →</a>
                         {(repo.readmeLiveUrl || repo.homepageUrl) && (
-                          <a href={repo.readmeLiveUrl || repo.homepageUrl} target="_blank" rel="noreferrer">
-                            Live →
-                          </a>
+                          <a href={repo.readmeLiveUrl || repo.homepageUrl} target="_blank" rel="noreferrer">Live →</a>
                         )}
                       </div>
                     </div>
