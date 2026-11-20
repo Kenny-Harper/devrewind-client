@@ -2,7 +2,7 @@
 
 React/TypeScript frontend for DevRewind, which turns your GitHub activity into a shareable developer story card.
 
-**Live:** https://devrewind.netlify.app
+**Live:** https://devrewind.netlify.app · **Backend repo:** [devrewind-api](https://github.com/Kenny-Harper/devrewind-api)
 
 <img width="420" alt="DevRewind card" src="https://github.com/user-attachments/assets/b78023f4-4036-4328-a089-d3352308f3ac" />
 
